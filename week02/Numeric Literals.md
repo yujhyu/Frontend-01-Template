@@ -1,77 +1,86 @@
-# NumericLiteral
+# 正则匹配所有 Number 直接量
 
-## NumericLiteral :: 
+> ## NumericLiteral ::
 > - DecimalLiteral
 > - BinaryIntegerLiteral 
 > - OctalIntegerLiteral 
-> - HexIntegerLiteral    
-``` code ```
+> - HexIntegerLiteral  
+`/^\.\d?|((0|[1-9]\d*)\.\d*)([eE][+\-]?\d+)?$|^0[bB][01]+$|^0[oO][0-7]$|^0[xX][0-9a-fA-F]+$/`
 
-## DecimalLiteral ::
+> ## DecimalLiteral ::
 > - DecimalIntegerLiteral . DecimalDigits (opt) ExponentPart (opt) 
-> -  . DecimalDigits ExponentPart (opt)
+> - . DecimalDigits ExponentPart (opt)
 > - DecimalIntegerLiteral ExponentPart (opt)  
-``` code ```
+`/^\.\d?|((0|[1-9]\d*)\.\d*)([eE][+\-]?\d+)?$/`
 
-## DecimalIntegerLiteral :: 
+> ## DecimalIntegerLiteral :: 
 > - 0
-> - NonZeroDigit DecimalDigitsopt    
-``` cdoe ```
+> - NonZeroDigit DecimalDigits(opt)  
+`/^0|[1-9]\d*$/`
 
-## DecimalDigits :: 
+> ## DecimalDigits :: 
 > - DecimalDigit
-> - DecimalDigits DecimalDigit   
-``` cdoe ```
+> - DecimalDigits DecimalDigit  
+`/^\d+$/`
 
-## DecimalDigit :: one of
+> ## DecimalDigit :: one of
 > 0 1 2 3 4 5 6 7 8 9  
-> ``` cdoe ```
+> `/^\d$/`
 
-## NonZeroDigit :: one of
+> ## NonZeroDigit :: one of
 > 1 2 3 4 5 6 7 8 9  
-> ``` cdoe ```
+> `/^[1-9]$/`
 
-## ExponentPart ::
+> ## ExponentPart ::
 > ExponentIndicator SignedInteger
+> `/^[eE][+\-]?\d+$/`
 
-## ExponentIndicator :: one of 
+> ## ExponentIndicator :: one of 
 > e E
-> ``` cdoe ```
+> `/^[eE]$/`
 
-## SignedInteger :: 
+> ## SignedInteger :: 
 > - DecimalDigits
 > - \+ DecimalDigits
 > - \- DecimalDigits
+> `/^[+\-]?\d+$/`
 
-## BinaryIntegerLiteral :: 
+> ## BinaryIntegerLiteral :: 
 > - 0b BinaryDigits 
-> - 0B BinaryDigits
-> 
-## BinaryDigits :: 
-> - BinaryDigit
-> - BinaryDigits BinaryDigit 
+> - 0B BinaryDigits  
+> `/^0[bB][01]+$/`
 
-## BinaryDigit :: one of
+> ## BinaryDigits :: 
+> - BinaryDigit
+> - BinaryDigits BinaryDigit  
+> `/^[01]$/`
+
+> ## BinaryDigit :: one of
 > 0 1
 
-## OctalIntegerLiteral :: 
+> ## OctalIntegerLiteral :: 
 > - 0o OctalDigits 
-> - 0O OctalDigits
+> - 0O OctalDigits  
+> `/^0[oO][0-7]$/`
 
-## OctalDigits :: 
+> ## OctalDigits :: 
 > - OctalDigit
-> - OctalDigits OctalDigit 
-> 
-## OctalDigit :: one of
-> 0 1 2 3 4 5 6 7
-> 
-## HexIntegerLiteral :: 
+> - OctalDigits OctalDigit
+> > `/^[0-7]+$/`
+
+> ## OctalDigit :: one of
+> 0 1 2 3 4 5 6 7  
+> `/^[0-7]$/`
+
+> ## HexIntegerLiteral :: 
 > - 0x HexDigits 
-> - 0X HexDigits
+> - 0X HexDigits  
+> `/^0[xX][0-9a-fA-F]+$/`
 
-## HexDigits :: 
+> ## HexDigits ::
 > - HexDigit
-> - HexDigits HexDigit 
+> - HexDigits HexDigit  
+> `/^[0-9a-fA-F]$/`
 
-## HexDigit :: one of
-> 0 1 2 3 4 5 6  7 8 9  a b c d e f A B  C D E F
+> ## HexDigit :: one of 
+> 0 1 2 3 4 5 6 7 8 9 a b c d e f A B C D E F
