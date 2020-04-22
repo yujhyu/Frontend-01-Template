@@ -31,11 +31,11 @@
 > - \<PS\> `/^\u2029$/`
 
 > ## LineTerminatorSequence :: 
-> - \<LF\>
+> - \<LF\> `/^\u000A$/`
 > - \<CR\>[lookahead ≠ \<LF\>] 
-> - \<LS\>
-> - \<PS\>
-> - \<CR\>\<LF\>
+> - \<LS\> `/^\u2028$/`
+> - \<PS\> `/^\u2029$/`
+> - \<CR\>\<LF\> `/\u000[AD]$/`
 
 > ## LineContinuation ::
 > - \\ LineTerminatorSequence
@@ -52,7 +52,7 @@
 > - NonEscapeCharacter
 
 > ## SingleEscapeCharacter :: one of
-> ' " \ b f n r t v
+> ' " \ b f n r t v 
 > `/^['"\bfnrtv]$/`
 
 > ## NonEscapeCharacter ::
