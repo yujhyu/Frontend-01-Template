@@ -17,7 +17,7 @@ function toUtf8(str) {
 		return binary.padStart(8, '0');
 	}
 
-	const headers = ['0', '110', '1110', '11110'];
+	const list = ['0', '110', '1110', '11110'];
   const arr = [];
   for (let end = binary.length; end > 0; end -= 6) {
     const sub = binary.slice(Math.max(end - 6, 0), end);
@@ -25,8 +25,8 @@ function toUtf8(str) {
     if (sub.length === 6) {
       arr.unshift(`10${sub}`);
     } else {
-      const header = headers[arr.length];
-      arr.unshift(`${header}${sub.padStart(8 - header.length, '0')}`);
+      const item = list[arr.length];
+      arr.unshift(`${item}${sub.padStart(8 - item.length, '0')}`);
     }
   }
   return arr.join(' ');
