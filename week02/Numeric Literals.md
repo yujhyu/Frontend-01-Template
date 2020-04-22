@@ -8,14 +8,14 @@
 `/^\.\d?|((0|[1-9]\d*)\.\d*)([eE][+\-]?\d+)?$|^0[bB][01]+$|^0[oO][0-7]$|^0[xX][0-9a-fA-F]+$/`
 
 > ## DecimalLiteral ::
-> - DecimalIntegerLiteral . DecimalDigits (opt) ExponentPart (opt) 
-> - . DecimalDigits ExponentPart (opt)
-> - DecimalIntegerLiteral ExponentPart (opt)  
+> - DecimalIntegerLiteral . DecimalDigits <sup>(opt)</sup> ExponentPart <sup>(opt)</sup> 
+> - . DecimalDigits ExponentPart <sup>(opt)</sup>
+> - DecimalIntegerLiteral ExponentPart <sup>(opt)</sup>  
 `/^\.\d?|((0|[1-9]\d*)\.\d*)([eE][+\-]?\d+)?$/`
 
 > ## DecimalIntegerLiteral :: 
 > - 0
-> - NonZeroDigit DecimalDigits(opt)  
+> - NonZeroDigit DecimalDigits<sup>(opt)</sup>  
 `/^0|[1-9]\d*$/`
 
 > ## DecimalDigits :: 
