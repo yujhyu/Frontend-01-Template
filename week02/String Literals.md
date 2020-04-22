@@ -1,25 +1,4 @@
-# 正则匹配所有字符串直接量，单引号和双引号
-
-> ## EscapeSequence :: 
-> - CharacterEscapeSequence
-> - LegacyOctalEscapeSequence 
-> - HexEscapeSequence 
-> - UnicodeEscapeSequence
-
-> ## LegacyOctalEscapeSequence ::
-> - OctalDigit [lookahead ∉ OctalDigit]
-> - ZeroToThree OctalDigit [lookahead ∉ OctalDigit] 
-> - FourToSeven OctalDigit
-> - ZeroToThree OctalDigit OctalDigit
-> ``
-
-> ## ZeroToThree :: one of 
-> 0 1 2 3  
-> `/^[0123]$/`
-
-> ## FourToSeven :: one of 
-> 4 5 6 7
-> `/^[4567]$/`
+# 正则匹配所有String直接量，单引号和双引号
 
 > ## StringLiteral ::
 > - " DoubleStringCharacters<sup>(opt)</sup> " 
@@ -32,32 +11,49 @@
 > - SingleStringCharacter SingleStringCharacters<sup>(opt)</sup>
 
 > ## DoubleStringCharacter ::
-> - SourceCharacter but not one of " or \ or LineTerminator \<LS\>
-> - \<PS\>
-> - \\ EscapeSequence
-> - LineContinuation
+> - SourceCharacter but not one of " or \ or LineTerminator `/^[^"\\\n\r\u2028\u2029]$/` 
+> - \<LS\> `/^\u2028$/`
+> - \<PS\> `/^\u2029$/`
+> - \\ EscapeSequence `/^\\(u([0-9a-fA-F]{4}|\{(10|0?[0-9a-fA-F])[0-9a-fA-F]{0,4}\})|x[0-9a-fA-F]{2}|0(?!=\d)|[^\n\r\u2028\u2029\dxu])$/u` 
+> - LineContinuation `/^\\(\n|\r\n?|\u2028|\u2029)$/u`
 
 > ## SingleStringCharacter ::
-> - SourceCharacter but not one of ' or \ or LineTerminator \<LS\>
+> - SourceCharacter but not one of ' or \ or LineTerminator `/^[^"\\\n\r\u2028\u2029]$/` 
+> - \<LS\> `/^\u2028$/`
+> - \<PS\> `/^\u2029$/`
+> - \\ EscapeSequence `/^\\(u([0-9a-fA-F]{4}|\{(10|0?[0-9a-fA-F])[0-9a-fA-F]{0,4}\})|x[0-9a-fA-F]{2}|0(?!=\d)|[^\n\r\u2028\u2029\dxu])$/u`
+> - LineContinuation `/^\\(\n|\r\n?|\u2028|\u2029)$/u`
+
+> ## LineTerminator :: 
+> - \<LF\> `/^\u000A$/`
+> - \<CR\> `/^\u000D$/`
+> - \<LS\> `/^\u2028$/`
+> - \<PS\> `/^\u2029$/`
+
+> ## LineTerminatorSequence :: 
+> - \<LF\>
+> - \<CR\>[lookahead ≠ \<LF\>] 
+> - \<LS\>
 > - \<PS\>
-> - \\ EscapeSequence
-> - LineContinuation
+> - \<CR\>\<LF\>
 
 > ## LineContinuation ::
 > - \\ LineTerminatorSequence
+> `/^\\(\n|\r\n?|\u2028|\u2029)$/u`
 
 > ## EscapeSequence :: 
-> - CharacterEscapeSequence
-> - 0 [lookahead ∉ DecimalDigit]
-> - HexEscapeSequence 
-> - UnicodeEscapeSequence
+> - CharacterEscapeSequence ``
+> - 0 [lookahead ∉ DecimalDigit] ``
+> - HexEscapeSequence `/^x[0-9a-fA-F]{2}$/`
+> - UnicodeEscapeSequence ``
 
 > ## CharacterEscapeSequence :: 
-> - SingleEscapeCharacter
+> - SingleEscapeCharacter `/^['"\bfnrtv]$/`
 > - NonEscapeCharacter
 
 > ## SingleEscapeCharacter :: one of
 > ' " \ b f n r t v
+> `/^['"\bfnrtv]$/`
 
 > ## NonEscapeCharacter ::
 > - SourceCharacter but not one of EscapeCharacter or LineTerminator
@@ -70,13 +66,15 @@
 
 > ## HexEscapeSequence ::
 > - x HexDigit HexDigit
+> `/^x[0-9a-fA-F]{2}$/`
 
 > ## UnicodeEscapeSequence :: 
-> - u Hex4Digits
-> - u{ CodePoint } `/^u\{\}$/`
+> - u Hex4Digits `/^u[0-9a-fA-F]{4}$/`
+> - u{ CodePoint } `/^u\{(10|0?[0-9a-fA-F])[0-9a-fA-F]{0,4}\}$/`
 
 > ## CodePoint ::
 > - HexDigits but only if MV of HexDigits ≤ 0x10FFFF
+> `/^\u{0}-\u{10FFFF}$/`
 
 > - Hex4Digits ::
 > - HexDigit HexDigit HexDigit HexDigit
@@ -84,3 +82,7 @@
 
 > ## HexDigit :: one of 
 > 0 1 2 3 4 5 6 7 8 9 a b c d e f A B C D E F
+
+> ## DecimalDigit :: one of
+> 0 1 2 3 4 5 6 7 8 9  
+> `/^\d$/`
