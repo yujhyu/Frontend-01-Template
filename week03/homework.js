@@ -36,7 +36,7 @@ function converStringToNumber(string, x) {
 	return number;
 }
 
-// console.log(converStringToNumber('100.0123'));
+console.log(converStringToNumber('0x1011', 2));
 
 /**
  * 数字转字符串
@@ -63,4 +63,4 @@ function converNumberToString(number, x) {
 	return str;
 }
 
-console.log(converNumberToString(100.0123));
+// console.log(converNumberToString(100.0123));
