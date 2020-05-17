@@ -29,16 +29,12 @@ class Request {
 
 	toString() {
 		return `${this.method} ${this.path} HTTP/1.1\r\n
-		${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r
-		\r${this.bodyText}`
+		${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\r${this.bodyText}`
 	}
 
 	send(connection) {
 		return new Promise((resolve, reject) => {
 			const parser = new ResponseParser;
-
-			// console.log(this.toString())
-
 			if (connection) {
 				connection.write(this.toString());
 			} else {
@@ -62,8 +58,7 @@ class Request {
 			});
 
 			connection.on('error', (err) => {
-				console.log(err)
-				reject(err.toString());
+				reject(err);
 				connection.end();
 			});
 		})
@@ -117,8 +112,6 @@ class ResponseParser {
 		if (this.current === this.WAITING_STATUS_LINE) {
 			if (char === '\r') {
 					this.current = this.WAITING_STATUS_LINE_END;
-			} else if (char === '\n') {
-				this.current = this.WAITING_HEADER_NAME;
 			} else {
 				this.statusLine += char;
 			}
@@ -130,7 +123,6 @@ class ResponseParser {
 			if (char === ':') {
 				this.current = this.WAITING_HEADER_SPACE;
 			}else if (char === '\r') {
-				// this.current = this.WAITING_BODY;
 				this.current = this.WAITING_HEADER_BLOCK_END;
 				if (this.headers['Transfer-Encoding'] === 'chunked') {
 					this.bodyParser = new TrunkedBodyParser();
