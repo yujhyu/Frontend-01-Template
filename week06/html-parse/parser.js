@@ -1,11 +1,23 @@
+let currentToken = null;
+
+function emit(token) {
+	console.log(token);
+}
+
 const EOF = Symbol("EOF"); // EOF: end of file
 
 function data(c) {
 	if (c == "<") { // 标签
 		return tagOpen;
 	} else if (c == EOF) {
-		return ;
+		return emit({
+			type: "EOF"
+		});
 	} else {
+		emit({
+			type: "text",
+			content:c
+		});
 		return data;
 	}
 };
@@ -14,6 +26,10 @@ function tagOpen(c) {
 	if (c == "/") { // 如果是斜杠表示 结束标签
 		return endTagOpen;
 	} else if (c.match(/^[a-zA-Z]$/)) { // 接收正常标签
+		currentToken = {
+			type: "startTag",
+			tagName: ""
+		};
 		return tagName(c); 
 	} else {
 		return ;
@@ -38,12 +54,14 @@ function endTagOpen(c) {
 
 function tagName(c) {
 	if (c.match(/^[\t\n\f ]$/)) { // 空白
-		return beforeAttributeName;
-	} else if (c == "/") {
+		return beforeAttributeName; // 属性
+	} else if (c == "/") { // 自封闭标签--结束
 		return selfClosingStartTag;
 	} else if (c.match(/^[a-zA-Z]$/)) { // 字母
+		currentToken.tagName += c
 		return tagName;
 	} else if (c == ">") {
+		emit(currentToken);
 		return data;
 	} else {
 		return tagName;
@@ -64,7 +82,7 @@ function beforeAttributeName(c) {
 
 function selfClosingStartTag(c) {
 	if (c == ">") {
-		currentToken.isSelfClosingStartTag = true;
+		currentToken.isSelfClosing = true;
 		return data;
 	} else if (c == "EOF") {
 		
@@ -79,7 +97,6 @@ function selfClosingStartTag(c) {
 module.exports.parseHTML = function parseHTML(html) {
 	let state = data;
 	for (let c of html) {
-		console.log(c)
 		state = state(c);
 	}
 	state = state(EOF);

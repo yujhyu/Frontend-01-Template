@@ -37,3 +37,12 @@ while(input){//获取输入
   - DOM with position
     - render
   - Bitmap
+
+## HTML解析步骤
+- 拆分文件
+- 创建状态机
+- 解析标签
+- 创建元素
+- 处理属性
+- 构建DOM树
+- web本节点
