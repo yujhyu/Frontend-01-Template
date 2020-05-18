@@ -5,9 +5,9 @@ let stack = [{type: "document", children: []}];
 let currentTextNode = null;
 
 function emit(token) {
-	if (token.type === "text") {
-		return;
-	}
+	// if (token.type === "text") {
+	// 	return;
+	// }
 	// console.log(token)
 
 	let top = stack[stack.length - 1];
@@ -288,6 +288,6 @@ module.exports.parseHTML = function parseHTML(html) {
 		state = state(c);
 	}
 	state = state(EOF);
-	console.log(stack[0]);
+	// console.log(stack[0]);
 	return stack[0];
 }
