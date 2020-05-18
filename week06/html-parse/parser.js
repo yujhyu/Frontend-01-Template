@@ -46,18 +46,17 @@ function emit(token) {
 		}
 
 		currentTextNode = null;
-	}
-	//  else if(token.type == "text") {
-	// 	if (currentTextNode == null) {
-	// 		currentTextNode = {
-	// 			type: 'text',
-	// 			content: ""
-	// 		}
+	 } else if(token.type == "text") {
+		if (currentTextNode == null) {
+			currentTextNode = {
+				type: 'text',
+				content: ""
+			}
 
-	// 		top.children.push(currentTextNode);
-	// 	}
-	// 	currentTextNode.content += token.content;
-	// }
+			top.children.push(currentTextNode);
+		}
+		currentTextNode.content += token.content;
+	}
 }
 
 const EOF = Symbol("EOF"); // EOF: end of file
@@ -290,4 +289,5 @@ module.exports.parseHTML = function parseHTML(html) {
 	}
 	state = state(EOF);
 	console.log(stack[0]);
+	return stack[0];
 }
