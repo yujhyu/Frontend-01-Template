@@ -1,10 +1,63 @@
 let currentToken = null;
 let currentAttribute = null;
 
+let stack = [{type: "document", children: []}];
+let currentTextNode = null;
+
 function emit(token) {
-	if (token.type != "text") {
-		console.log(token);
+	if (token.type === "text") {
+		return;
 	}
+	// console.log(token)
+
+	let top = stack[stack.length - 1];
+
+	if (token.type == "startTag") {
+		let element = {
+			type: "element",
+			children: [],
+			attributes: []
+		}
+
+		element.tagName = token.tagName;
+
+		for (let p in token) {
+			if (p != "type" && p != "tagName") {
+				element.attributes.push({
+					name: p,
+					value: token[p]
+				})
+			}
+		}
+
+		top.children.push(element);
+		element.parent = top;
+
+		if (!token.isSelfClosing) {
+			stack.push(element);
+		}
+
+		currentTextNode = null;
+	} else if(token.type == "endTag") {
+		if (top.tagName != token.tagName) {
+			throw new Error("Tag start end doesn't match!");
+		} else {
+			stack.pop();
+		}
+
+		currentTextNode = null;
+	}
+	//  else if(token.type == "text") {
+	// 	if (currentTextNode == null) {
+	// 		currentTextNode = {
+	// 			type: 'text',
+	// 			content: ""
+	// 		}
+
+	// 		top.children.push(currentTextNode);
+	// 	}
+	// 	currentTextNode.content += token.content;
+	// }
 }
 
 const EOF = Symbol("EOF"); // EOF: end of file
@@ -38,7 +91,7 @@ function tagOpen(c) {
 	} else {
 		emit({
 			type: "text",
-			content:c
+			content: c
 		});
 		return ;
 	}
@@ -193,7 +246,7 @@ function endTagOpen(c) {
 			type: 'endTag',
 			tagName: ""
 		}
-		return tagName;
+		return tagName(c);
 	} else if (c == ">") {
 		
 	} else if (c == EOF) {
@@ -233,8 +286,8 @@ module.exports.parseHTML = function parseHTML(html) {
 	let state = data;
 
 	for (let c of html) {
-		// console.log(c)
 		state = state(c);
 	}
 	state = state(EOF);
+	console.log(stack[0]);
 }
