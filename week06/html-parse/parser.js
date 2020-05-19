@@ -5,11 +5,6 @@ let stack = [{type: "document", children: []}];
 let currentTextNode = null;
 
 function emit(token) {
-	// if (token.type === "text") {
-	// 	return;
-	// }
-	// console.log(token)
-
 	let top = stack[stack.length - 1];
 
 	if (token.type == "startTag") {
@@ -283,11 +278,11 @@ function afterAttributeName(c) {
  */
 module.exports.parseHTML = function parseHTML(html) {
 	let state = data;
-
+	// console.log(html)
 	for (let c of html) {
 		state = state(c);
 	}
 	state = state(EOF);
-	// console.log(stack[0]);
+	// console.log(stack[0].children[0].children[1].children[1].children[0].content);
 	return stack[0];
 }
