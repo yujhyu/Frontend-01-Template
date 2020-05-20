@@ -10,8 +10,66 @@ const css = require('css');
 let rules = [];
 function addCSSRules(text) {
 	let ast = css.parse(text);
-	console.log(JSON.stringify(ast, null, " "));
+	// console.log(JSON.stringify(ast, null, " "));
 	rules.push(...ast.stylesheet.rules);
+}
+
+function match(element, selector) {
+	if (!selector || !element.attributes) {
+		return false;
+	}
+
+	// id元素，可选作业（实现复合选择器，实现支持空格的class选择器）01：15
+	if (selector.charAt(0) == "#") {
+		let attr = element.attributes.filter(attr => attr.name === "id")[0]
+		if (attr && attr.value === selector.replace("#", '')) {
+			return true;
+		}
+	} else if (selector.charAt(0) == ".") {
+		let attr = element.attributes.filter(attr => attr.name === "class")[0]
+		if (attr && attr.value === selector.replace(".", '')) {
+			return true;
+		}
+	} else {
+		if (element.tagName === selector) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+function computeCss(element) {
+	let elements = stack.slice().reverse();
+
+	if (!element.computeedStyle) {
+		element.computeedStyle = {};
+	}
+
+	for(let rule of rules) {
+		let selectorParts = rule.selectors[0].split(" ").reverse();
+
+		if (!match(element, selectorParts[0])) {
+			continue;
+		}
+
+		let matched = false;
+
+		let j = 1;
+		for (let i = 0; i < elements.length; i++) {
+			if (match(elements[i], selectorParts[j])) {
+				j++;
+			}
+		}
+
+		if (j => selectorParts.length) {
+			matched = true;
+			// 匹配后加入
+			if (matched) {
+				console.log("element", element, "matched rule", rule);
+			}
+		}
+	}
 }
 
 function emit(token) {
@@ -35,6 +93,8 @@ function emit(token) {
 			}
 		}
 
+		// css 计算
+		computeCss(element);
 		top.children.push(element);
 		element.parent = top;
 
