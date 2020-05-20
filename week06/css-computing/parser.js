@@ -4,6 +4,16 @@ let currentAttribute = null;
 let stack = [{type: "document", children: []}];
 let currentTextNode = null;
 
+const css = require('css');
+
+// 加入一个新的函数addCSSRules,将CSS规则暂存入数组
+let rules = [];
+function addCSSRules(text) {
+	let ast = css.parse(text);
+	console.log(JSON.stringify(ast, null, " "));
+	rules.push(...ast.stylesheet.rules);
+}
+
 function emit(token) {
 	let top = stack[stack.length - 1];
 
@@ -37,6 +47,10 @@ function emit(token) {
 		if (top.tagName != token.tagName) {
 			throw new Error("Tag start end doesn't match!");
 		} else {
+			/******* style标签执行添加css规则操作 ********/
+			if (top.tagName === "style") {
+				addCSSRules(top.children[0].content);
+			}
 			stack.pop();
 		}
 
