@@ -39,6 +39,10 @@ function match(element, selector) {
 	return false;
 }
 
+function specificity() {
+	return 0;
+}
+
 function computeCss(element) {
 	let elements = stack.slice().reverse();
 
@@ -66,7 +70,16 @@ function computeCss(element) {
 			matched = true;
 			// 匹配后加入
 			if (matched) {
-				console.log("element", element, "matched rule", rule);
+				// console.log("element", element, "matched rule", rule);
+				let computeedStyle = element.computeedStyle;
+				for(let declaration of rule.declarations) {
+					if (!computeedStyle[declaration.property]) {
+						computeedStyle[declaration.property] = {};
+						computeedStyle[declaration.property].value = declaration.value;
+
+						console.log(element.computeedStyle);
+					}
+				}
 			}
 		}
 	}
