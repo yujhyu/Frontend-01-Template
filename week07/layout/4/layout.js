@@ -138,7 +138,7 @@ function layout(element) {
 	let flexLine = [],
 		flexLines = [flexLine];
 	let	mainSpace = elementStyle[mainSize]; // 多余空间部分
-	let crossSpace = 0;
+	var crossSpace = 0;
 
 	for (let i = 0; i < items.length; i++) {
 		let item = items[i];
@@ -283,7 +283,7 @@ function layout(element) {
 
 	// compute the cross axis sizes
 	// align-items, align-self
-	let crossSpace;
+	var crossSpace;
 	if (!style[crossSize]) { // auto sizing
 		crossSpace = 0;
 		elementStyle[crossSize] = 0;
