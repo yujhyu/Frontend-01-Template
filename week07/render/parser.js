@@ -400,6 +400,6 @@ module.exports.parseHTML = function parseHTML(html) {
 		state = state(c);
 	}
 	state = state(EOF);
-	// console.log(stack[0].children[0].children[1].children[1].children[0].content);
+	// console.log(JSON.stringify(stack[0], null, " "))
 	return stack[0];
 }
