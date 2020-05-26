@@ -18,8 +18,8 @@ const server = http.createServer((req, res) => {
 				background-color: rgb(255,255,255);
 			}
 			#container #myid {
-				width:200px;
-				height:100px;
+				width: 200px;
+				height: 100px;
 				background-color: rgb(255,0,0);
 			}
 			#container .c1 {

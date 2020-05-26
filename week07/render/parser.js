@@ -271,7 +271,7 @@ function beforeAttributeValue(c) {
 }
 
 function doubleQuotedAttributeValue(c) {
-	if (c == "\"") {
+	if (c == '\"') {
 		currentToken[currentAttribute.name] = currentAttribute.value;
 		return afterQuotedAttributeVaule;
 	} else if (c == "\u0000") {
@@ -285,7 +285,7 @@ function doubleQuotedAttributeValue(c) {
 }
 
 function singleQuotedAttributeValue(c) {
-	if (c == "\'") {
+	if (c == '\'') {
 		currentToken[currentAttribute.name] = currentAttribute.value;
 		return afterQuotedAttributeVaule;
 	} else if (c == "\u0000") {
