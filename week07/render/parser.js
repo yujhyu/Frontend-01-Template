@@ -6,11 +6,11 @@ let currentTextNode = null;
 
 const css = require('css');
 const layout = require('./layout.js');
+
 // 加入一个新的函数addCSSRules,将CSS规则暂存入数组
 let rules = [];
 function addCSSRules(text) {
 	let ast = css.parse(text);
-	// console.log(JSON.stringify(ast, null, " "));
 	rules.push(...ast.stylesheet.rules);
 }
 
@@ -35,8 +35,6 @@ function match(element, selector) {
 			return true;
 		}
 	}
-
-	return false;
 }
 
 function specificity(selector) {
@@ -72,8 +70,8 @@ function compare(sp1, sp2) {
 function computeCss(element) {
 	let elements = stack.slice().reverse();
 
-	if (!element.computeedStyle) {
-		element.computeedStyle = {};
+	if (!element.computedStyle) {
+		element.computedStyle = {};
 	}
 
 	for(let rule of rules) {
@@ -83,7 +81,7 @@ function computeCss(element) {
 			continue;
 		}
 
-		let matched = false;
+		// let matched = false;
 
 		let j = 1;
 		for (let i = 0; i < elements.length; i++) {
@@ -97,18 +95,19 @@ function computeCss(element) {
 			// 匹配后加入
 			if (matched) {
 				// console.log("element", element, "matched rule", rule);
-				let computeedStyle = element.computeedStyle;
+				let computedStyle = element.computedStyle;
 				let sp = specificity(rule.selectors[0]);
 				for(let declaration of rule.declarations) {
-					if (!computeedStyle[declaration.property]) {
-						computeedStyle[declaration.property] = {};
-						computeedStyle[declaration.property].value = declaration.value;
-						computeedStyle[declaration.property].specificity = sp;
+					if (!computedStyle[declaration.property]) {
+						computedStyle[declaration.property] = {};
+						computedStyle[declaration.property].value = declaration.value;
+						computedStyle[declaration.property].specificity = sp;
 
-						// console.log(element.computeedStyle);
-					} else if(compare(computeedStyle[declaration.property].specificity, sp) < 0) {
-						computeedStyle[declaration.property].value = declaration.value;
-						computeedStyle[declaration.property].specificity = sp;
+						// console.log(element.computedStyle);
+					} else if(compare(computedStyle[declaration.property].specificity, sp) < 0) {
+						for (let k = 0; k < 4; k++) {
+							computedStyle[declaration.property][declaration.value][k] += sp[k];
+						}
 					}
 				}
 			}
@@ -140,7 +139,7 @@ function emit(token) {
 		// css 计算
 		computeCss(element);
 		top.children.push(element);
-		element.parent = top;
+		// element.parent = top;
 
 		if (!token.isSelfClosing) {
 			stack.push(element);
@@ -155,10 +154,9 @@ function emit(token) {
 			if (top.tagName === "style") {
 				addCSSRules(top.children[0].content);
 			}
-			layout(top);
 			stack.pop();
 		}
-
+		layout(top);
 		currentTextNode = null;
 	 } else if(token.type == "text") {
 		if (currentTextNode == null) {
