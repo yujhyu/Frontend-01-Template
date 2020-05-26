@@ -81,8 +81,8 @@ function layout(element) {
 
 	if (style.flexDirection === 'row-reverse') {
 		mainSize = WIDTH;
-		mainStart = LEFT;
-		mainEnd = RIGHT;
+		mainStart = RIGHT;
+		mainEnd = LEFT;
 		mainSign = -1;
 		mainBase = style.width;
 
