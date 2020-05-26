@@ -68,120 +68,62 @@ function layout(element) {
 	const WIDTH = 'width', HEIGHT = 'height', LEFT = 'left', RIGHT = 'right', TOP = 'top', BOTTOM = 'bottom';
 
 	if (style.flexDirection === 'row') {
-		mainSize = 'width';
-		mainStart = 'left';
-		mainEnd = 'right';
-		mainSign = +1; // 表示正负
+		mainSize = WIDTH;
+		mainStart = LEFT;
+		mainEnd = RIGHT;
+		mainSign = +1;
 		mainBase = 0;
 
-		crossSize = 'height';
-		crossStart = 'top';
-		crossEnd = 'bottom';
+		crossSize = HEIGHT;
+		crossStart = TOP;
+		crossEnd = BOTTOM;
 	}
 
 	if (style.flexDirection === 'row-reverse') {
-		mainSize = 'width';
-		mainStart = 'right';
-		mainEnd = 'left';
-		mainSign = -1; // 表示正负
+		mainSize = WIDTH;
+		mainStart = LEFT;
+		mainEnd = RIGHT;
+		mainSign = -1;
 		mainBase = style.width;
 
-		crossSize = 'height';
-		crossStart = 'top';
-		crossEnd = 'bottom';
+		crossSize = HEIGHT;
+		crossStart = TOP;
+		crossEnd = BOTTOM;
 	}
 
 	if (style.flexDirection === 'column') {
-		mainSize = 'height';
-		mainStart = 'top';
-		mainEnd = 'bottom';
-		mainSign = +1; // 表示正负
+		mainSize = HEIGHT;
+		mainStart = TOP;
+		mainEnd = BOTTOM;
+		mainSign = +1;
 		mainBase = 0;
 
-		crossSize = 'width';
-		crossStart = 'left';
-		crossEnd = 'right';
+		crossSize = WIDTH;
+		crossStart = LEFT;
+		crossEnd = RIGHT;
 	}
 
 	if (style.flexDirection === 'column-reverse') {
-		mainSize = 'height';
-		mainStart = 'bottom';
-		mainEnd = 'top';
-		mainSign = -1; // 表示正负
+		mainSize = HEIGHT;
+		mainStart = BOTTOM;
+		mainEnd = TOP;
+		mainSign = -1;
 		mainBase = style.height;
 
-		crossSize = 'width';
-		crossStart = 'left';
-		crossEnd = 'right';
+		crossSize = WIDTH;
+		crossStart = LEFT;
+		crossEnd = RIGHT;
 	}
 
 	if (style.flexWrap === 'wrap-reverse') {
-		var tmp = crossStart;
+		let tmp = crossStart;
 		crossStart = crossEnd;
-		crossEnd = tmp;
+		crossEnd =  tmp;
 		crossSign = -1;
 	} else {
-		corssBase = 0;
+		crossBase = 0;
 		crossSign = 1;
 	}
-
-	// if (style.flexDirection === 'row') {
-	// 	mainSize = WIDTH;
-	// 	mainStart = LEFT;
-	// 	mainEnd = RIGHT;
-	// 	mainSign = +1;
-	// 	mainBase = 0;
-
-	// 	crossSize = HEIGHT;
-	// 	crossStart = TOP;
-	// 	crossEnd = BOTTOM;
-	// }
-
-	// if (style.flexDirection === 'row-reverse') {
-	// 	mainSize = WIDTH;
-	// 	mainStart = LEFT;
-	// 	mainEnd = RIGHT;
-	// 	mainSign = -1;
-	// 	mainBase = style.width;
-
-	// 	crossSize = HEIGHT;
-	// 	crossStart = TOP;
-	// 	crossEnd = BOTTOM;
-	// }
-
-	// if (style.flexDirection === 'column') {
-	// 	mainSize = HEIGHT;
-	// 	mainStart = TOP;
-	// 	mainEnd = BOTTOM;
-	// 	mainSign = +1;
-	// 	mainBase = 0;
-
-	// 	crossSize = WIDTH;
-	// 	crossStart = LEFT;
-	// 	crossEnd = RIGHT;
-	// }
-
-	// if (style.flexDirection === 'column-reverse') {
-	// 	mainSize = HEIGHT;
-	// 	mainStart = BOTTOM;
-	// 	mainEnd = TOP;
-	// 	mainSign = -1;
-	// 	mainBase = style.height;
-
-	// 	crossSize = WIDTH;
-	// 	crossStart = LEFT;
-	// 	crossEnd = RIGHT;
-	// }
-
-	// if (style.flexWrap === 'wrap-reverse') {
-	// 	let tmp = crossStart;
-	// 	crossStart = crossEnd;
-	// 	crossEnd =  tmp;
-	// 	crossSign = -1;
-	// } else {
-	// 	crossBase = 0;
-	// 	crossSign = 1;
-	// }
 
 	// 处理特殊元素，父元素没有属性，没有宽度。设置为自动撑开
 	let isAutoMainSize = false; // 自动撑开
