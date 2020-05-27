@@ -249,7 +249,7 @@ function layout(element) {
 						itemStyle[mainSize] = (mainSpace / flexTotal) * itemStyle.flex;
 					}
 					itemStyle[mainStart] = currentMain;
-					itemStyle[mainEnd] = itemStyle[mainStart] + mainStart * itemStyle[mainSize];
+					itemStyle[mainEnd] = itemStyle[mainStart] + mainSign * itemStyle[mainSize];
 					currentMain = itemStyle[mainEnd];
 				}
 			} else {
@@ -276,7 +276,7 @@ function layout(element) {
 				for (let i = 0; i < items.length; i++) {
 					let item = items[i];
 					itemStyle[mainStart] = currentMain;
-					itemStyle[mainEnd] = itemStyle[mainStart] + mainStart * itemStyle[mainSize];
+					itemStyle[mainEnd] = itemStyle[mainStart] + mainSign * itemStyle[mainSize];
 					currentMain = itemStyle[mainEnd] + step;
 				}
 			}
@@ -370,7 +370,7 @@ function layout(element) {
 		crossBase += crossSign * (lineCrossSize + step);
 	});
 
-	// console.log(items);
+	console.log(items);
 }
 
 module.exports = layout;
