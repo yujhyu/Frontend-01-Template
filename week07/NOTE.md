@@ -6,12 +6,15 @@
 - 计算交叉轴
 
 ## CSS总体结构
-- @charset
-- @import
 - rules
+  - @charset
+  - @import
   - @media
   - @page
-  - rule
+- rule
+
+## CSS脑图
+![jhyu-frontend-map jhyu-前端技术地图](https://github.com/yujhyu/Frontend-01-Template/blob/master/week07/css-xmind.png)
 
 ## 哎~~
-有点难，还需要再找时间复盘这一篇幅的内容，才能掌握。
+针对浏览器渲染这块吸收的还不是很完备，还需要再找时间复盘这一篇幅的内容，才能掌握。
