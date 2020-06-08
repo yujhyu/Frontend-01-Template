@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>match</title>
+</head>
+<body>
+	<div id="jhyu" class="jhyu"></div>
+</body>
+<script>
+function match(selector, element) {
+	// 简单选择器
+	if(!selector || !element) return;
+
+	// id
+	let regId = /#\w+/g;
+	if (selector.match(regId)[0].slice(1) && element.id) {
+		return true;
+	}
+
+	// class
+	let regCls = /\.\w+/g;
+	if (selector.match(regCls)[0].slice(1) && element[0].className) {
+		return true;
+	}
+
+	return false;
+}
+
+console.log(match("div #jhyu.111", document.getElementById("jhyu")));
+console.log(match("div #111.jhyu", document.getElementsByClassName("jhyu")));
+</script>
+</html>

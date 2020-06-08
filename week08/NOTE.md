@@ -1,1 +1,41 @@
 # 每周总结可以写在这里
+## 选择器语法
+- 简单选择器
+  - * 通配符
+  - div svg|a 标签
+  - .cls 类
+  - #id id
+  - [attr=value] 属性
+  - :hover 伪类
+  - ::before 伪元素
+- 复合选择器
+  - <简单选择器><简单选择器><简单选择器>
+  - * 或者 div 必须写在最前面
+- 复杂选择器
+  - <复合选择器> <sp> <复合选择器> 【子孙】
+  - <复合选择器> ">" <复合选择器> 【子】
+  - <复合选择器> "~" <复合选择器> 【相邻】
+  - <复合选择器> "+" <复合选择器> 【相邻】
+  - <复合选择器> "||" <复合选择器> 【table选择列】
+- 选择器列表根据 <,> 连接
+- 伪类
+  - 链接/行为
+    - :any-link
+    - :link :visited
+    - :hover
+    - :active
+    - :focus
+    - :target
+  - 树结构
+    - :empty
+    - :nth-child()
+    - :nth-last-child()
+    - :first-child :last-child :only-child
+  - 逻辑型
+    - :not伪类
+    - :where :has
+- 伪元素
+  - ::before 前
+  - ::after 后
+  - ::firstLine 
+  - ::firstLetter

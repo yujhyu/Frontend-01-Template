@@ -81,7 +81,7 @@ function computeCss(element) {
 			continue;
 		}
 
-		// let matched = false;
+		let matched = false;
 
 		let j = 1;
 		for (let i = 0; i < elements.length; i++) {
