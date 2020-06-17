@@ -38,3 +38,6 @@
 - collapse 将 Range 折叠至其端点（boundary points，起止点，指起点或终点，下同）之一
 - extractContents 把 Range 的内容从文档树移动到一个文档片段中
 - insertNode 在 Range 的起点处插入一个节点
+
+## CSSOM
+- document.styleSheets
