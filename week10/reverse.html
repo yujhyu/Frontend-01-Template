@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reverse</title>
+</head>
+<body>
+    <div id="a">
+        <span>1</span>
+        <p>2</p>
+        <a>3</a>
+        <div>4</div>
+    </div>
+</body>
+<script>
+let element = document.getElementById("a");
+
+/*
+    错误代码，思路对，结果不对
+*/
+// function reverseChildren(element) { 
+//     let children = element.children[0].innerText,
+//         arr = [];
+
+//     for (let i = 0; i < element.children.length; i++) {
+//         arr.push(element.children[i].innerText);
+//     }
+
+//     return arr.reverse();
+// }
+
+/*
+    示例代码
+*/
+// function reverseChildren(element) { 
+//     // 转换为数组
+//     let children = Array.prototype.slice.call(element.childNodes);
+
+//     // 删除，其实在添加时会同时进行
+//     // for (const child of children) {
+//     //     element.removeChild(child);
+//     // }
+
+//     // 数组翻转
+//     children.reverse();
+
+//     // 重新添加
+//     for (const child of children) {
+//         element.appendChild(child);
+//     }
+// }
+
+/*
+    推荐代码 1.0 分数版本
+*/
+// function reverseChildren(element) { 
+//     // 转换为数组
+//     let i = element.childNodes.length;
+
+//     while (i-- > 0) {
+//         element.appendChild(element.childNodes[i]);
+//     }
+// }
+
+function reverseChildren(element) { 
+    // 创建
+    let range = new Range();
+    range.selectNodeContents(element);
+
+    // 移动
+    let fragment = range.extractContents(),
+        i = fragment.childNodes.length;
+
+    while (i-- > 0) {
+        fragment.appendChild(fragment.childNodes[i]);
+    }
+
+    element.appendChild(fragment);
+}
+
+reverseChildren(element);
+</script>
+</html>
