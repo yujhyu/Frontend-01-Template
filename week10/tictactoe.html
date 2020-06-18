@@ -64,21 +64,20 @@
     };
 
     function move(x, y) {
-        // 第三步，防止多次切换
-        // if (pattern[y][x] !== 0) return;
-
         pattern[y][x] = color;
 
-        if(check()) {
+        if(check(pattern, color)) {
             alert(color == 2 ? "❌ is winner!" : "⭕️ is winner！");
         }
-
         color = 3 - color;
-
         show();
+        if(willWin(pattern, color)) {
+            alert(color == 2 ? "❌ will win!" : "⭕️ will win！");
+        }
     };
 
-    function check() { // pattern, color, x, y
+    // 检查
+    function check(pattern, color, x, y) {
         for (let i = 0; i < 3; i++) {
             let win = true;
             for (let j = 0; j < 3; j++) {
@@ -139,6 +138,31 @@
 
         return false;
     };
+
+    // 克隆
+    function clone(pattern) {
+        return JSON.parse(JSON.stringify(pattern));
+    }
+
+    // 即将赢
+    function willWin(pattern, color, x, y) {
+        for (let i = 0; i < 3; i++) {
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                // 行内有不同，则这行不可能赢
+                if (pattern[i][j]) {
+                    continue;
+                }
+
+                let tmp = clone(pattern);
+                tmp[i][j] = color;
+                if (check(tmp, color)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     show();
 </script>
