@@ -1,4 +1,8 @@
 # 每周总结可以写在这里
+
+## 总结
+这期主要学习 DOM API，记录了一些可能会用到的API，后续API会整理到脑图中。
+
 ## 不常用标签记录
 - <samp> 元素用于标识计算机程序输出
 - <dfn> 元素标记了被定义的术语
@@ -17,7 +21,7 @@
 - insertBefore 插入至前
 - removeChild 移除
 - replacechild 替换
-
+****
 ## dom高级操作
 - compareDocumentPosition 用于比较两个节点中关系的函数
 - contains 检查一个节点是否包含另一个节点的函数
@@ -41,3 +45,7 @@
 
 ## CSSOM
 - document.styleSheets
+  - Rules
+    - cssRules
+    - insertRule
+    - removeRule
