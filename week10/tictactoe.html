@@ -212,7 +212,7 @@
         // 预设最坏的情况
         let result = -1;
 
-        for (let i = 0; i < 3; i++) {
+        outer:for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 // 行内有不同，则这行不可能赢
                 if (pattern[i][j] !== 0) {
@@ -225,6 +225,10 @@
                 if (- opp.result >= result) {
                     point = [j, i];
                     result =  - opp.result;
+                }
+
+                if (result == 1) {
+                    break outer;
                 }
             }
         }
