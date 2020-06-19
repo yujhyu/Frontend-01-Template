@@ -37,7 +37,7 @@
  <script>
     // step1
     let pattern = [
-        [2, 0, 0],
+        [2, 0, 2],
         [0, 1, 0],
         [0, 0, 0]
     ];
@@ -72,7 +72,7 @@
         color = 3 - color;
         show();
         if(willWin(pattern, color)) {
-            alert(color == 2 ? "❌ will win!" : "⭕️ will win！");
+            console.log(color == 2 ? "❌ will win!" : "⭕️ will win！");
         }
     };
 
@@ -157,11 +157,26 @@
                 let tmp = clone(pattern);
                 tmp[i][j] = color;
                 if (check(tmp, color)) {
-                    return true;
+                    return [j, i];
                 }
             }
         }
-        return false;
+        return null;
+    }
+
+    function bestChoice(pattern, color) {
+        let point = willWin(pattern, color);
+        if (point) {
+            return {
+                point: point,
+                result: -1
+            }
+        }
+
+        // return {
+        //     point: [1, 1],
+        //     result: -1
+        // }
     }
 
     show();
