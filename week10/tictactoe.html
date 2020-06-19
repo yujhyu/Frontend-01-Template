@@ -38,7 +38,7 @@
     // step1
     let pattern = [
         [0, 0, 0],
-        [2, 1, 0],
+        [0, 0, 0],
         [0, 0, 0]
     ];
 
@@ -54,7 +54,7 @@
                     cell.classList.add("cell");
                     cell.innerText = pattern[i][j] == 2 ? "❌" : pattern[i][j] == 1 ? "⭕️" : "";
 
-                cell.addEventListener('click', () => move(j, i));
+                cell.addEventListener('click', () => userMove(j, i));
                 
                 board.appendChild(cell);
             }
@@ -63,7 +63,7 @@
         }
     };
 
-    function move(x, y) {
+    function userMove(x, y) {
         pattern[y][x] = color;
 
         if(check(pattern, color)) {
@@ -71,9 +71,22 @@
         }
         color = 3 - color;
         show();
-        if(willWin(pattern, color)) {
-            console.log(color == 2 ? "❌ will win!" : "⭕️ will win！");
+        // if(willWin(pattern, color)) {
+        //     console.log(color == 2 ? "❌ will win!" : "⭕️ will win！");
+        // }
+        computerMove();
+    };
+
+    function computerMove() {
+        let choice = bestChoice(pattern, color);
+        if (choice.point) {
+            pattern[choice.point[1]][choice.point[0]] = color;
         }
+        if(check(pattern, color)) {
+            alert(color == 2 ? "❌ is winner!" : "⭕️ is winner！");
+        }
+        color = 3 - color;
+        show();
     };
 
     // 检查
@@ -162,9 +175,32 @@
             }
         }
         return null;
-    }
+    };
+
+    let openings = new Map();
+    openings.set([
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ].toString() + "1", {
+        point: [1, 1],
+        result: 0
+    });
+
+    openings.set([
+        [0, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0]
+    ].toString() + "2", {
+        point: [0, 0],
+        result: 0
+    });
 
     function bestChoice(pattern, color) {
+        if (openings.has(pattern.toString() + color)) {
+            return openings.get(pattern.toString() + color);
+        }
+
         let point = willWin(pattern, color);
         if (point) {
             return {
