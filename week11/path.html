@@ -16,7 +16,32 @@
 <div id="container"></div>
 <button id="save" onClick="localStorage.map = JSON.stringify(map)">保存</button>
 <script>
-    // var map = new Array(10000).join(0).split('').map(s => Number(s));
+    class Sorted {
+        constructor(data, compare) {
+            this.data = data;
+            this.compare = compare;
+        }
+
+        take() {
+            if (!this.data.length) return;
+            let min = this.data[0];
+            let minIndex = 0;
+
+            for (let i = 1; i < this.data.length; i++) {
+                if (this.compare(this.data[i], min) > 0) {
+                    min = this.data[i];
+                    minIndex = i;
+                }
+            }
+            this.data[minIndex] = this.data[this.data.length - 1];
+            this.data.pop();
+            return min;
+        }   
+
+        insert(v) {
+            this.data.push(v);
+        }
+    }
 
     let map = localStorage.map ? JSON.parse(localStorage.map) : new Array(10000).fill(0);
     let contaniner = document.getElementById("container");
@@ -65,9 +90,12 @@
     async function findPath(map, start, end) {
         map = map.slice();
         let queue = [start];
-        let stack = [start]; 
+
+        // 添加标记
+        contaniner.children[start[1] * 100 + start[0]].style.backgroundColor = "green";
+        contaniner.children[end[1] * 100 + end[0]].style.backgroundColor = "red";
         
-        async function inster([x, y], pre) {
+        async function insert([x, y], pre) {
             if (map[100 * y + x] !== 0) 
                 return;
             if (x < 0 || y < 0 || x >= 100 || y >= 100)
@@ -87,6 +115,7 @@
                 let path = [];
                 while (x !== start[0] || y !== start[1]) {
                     path.push([x, y]);
+                    await sleep(30);
                     contaniner.children[y * 100 + x].style.backgroundColor = 'pink';
                     [x, y] = map[y * 100 + x];
                 }
@@ -94,15 +123,15 @@
                 return path;
             }
 
-            await inster([x - 1, y], [x, y]); // left
-            await inster([x + 1, y], [x, y]); // right
-            await inster([x, y - 1], [x, y]); // top
-            await inster([x, y + 1], [x, y]); // bottom
+            await insert([x - 1, y], [x, y]); // left
+            await insert([x + 1, y], [x, y]); // right
+            await insert([x, y - 1], [x, y]); // top
+            await insert([x, y + 1], [x, y]); // bottom
 
-            await inster([x - 1, y - 1], [x, y]); // left
-            await inster([x + 1, y - 1], [x, y]); // right
-            await inster([x - 1, y + 1], [x, y]); // top
-            await inster([x + 1, y + 1], [x, y]); // bottom
+            await insert([x - 1, y - 1], [x, y]); // left
+            await insert([x + 1, y - 1], [x, y]); // right
+            await insert([x - 1, y + 1], [x, y]); // top
+            await insert([x + 1, y + 1], [x, y]); // bottom
         }
 
         return null;
