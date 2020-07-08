@@ -1,3 +1,9 @@
+<input type="range" min="0" max="255" id="r" />
+<input type="range" min="0" max="255" id="g" />
+<input type="range" min="0" max="255" id="b" />
+
+<div id="color" style="width:100px;height:100px;background-color:rgb(29,23,90)"></div>
+
 <script>
 let handlers = new Map();
 let reactivties = new Map();
@@ -34,7 +40,7 @@ function reactive(obj) {
 
     reactivties.set(obj, proxy);
     reactivties.set(proxy, proxy);
-    
+
     return proxy;
 }
 
@@ -44,7 +50,7 @@ function effect(handler) {
     // console.log(userReactivies);
     for (const userReactivity of userReactivies) {
         let [obj, prop] = userReactivity;
-        console.log([obj, prop]);
+        // console.log([obj, prop]);
 
         if (!handlers.has(obj)){
             handlers.set(obj, new Map());
@@ -77,10 +83,41 @@ function effect(handler) {
 // effect(() => v2 = p2.a);
 
 
-let v;
-let p = reactive(object);
-effect(() =>  v = p.a.x);
-console.log(v);
-p.a = {x: 10};
-console.log(v);
+// let v;
+// let p = reactive(object);
+// effect(() =>  v = p.a.x);
+// console.log(v);
+// p.a = {x: 10};
+// console.log(v);
+
+
+let p = reactive({r:100, g:100, b:100});
+
+effect(() => {
+    document.getElementById('r').value = p.r;
+});
+
+effect(() => {
+    document.getElementById('g').value = p.g;
+});
+
+effect(() => {
+    document.getElementById('b').value = p.b;
+});
+
+document.getElementById('r').addEventListener("input", event => {
+    p.r = event.target.value;
+});
+
+document.getElementById('g').addEventListener("input", event => {
+    p.g = event.target.value;
+});
+
+document.getElementById('b').addEventListener("input", event => {
+    p.b = event.target.value;
+});
+
+effect(() => {
+    document.getElementById('color').style.backgroundColor = `rgb(${p.r},${p.g},${p.b})`;
+}); 
 </script>
