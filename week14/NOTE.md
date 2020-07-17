@@ -1,1 +1,45 @@
 # 每周总结可以写在这里
+## 总结 组件化api设计 --- 轮播，根据自己需求进行配置
+- Carousel
+  - state
+    - activeIndex
+  - property
+    - loop
+    - time
+    - imgList
+    - linkList
+    - autoplay
+    - color
+    - forward
+  - attribute
+    - vertical
+    - horizontal
+    - startIndex
+    - loop
+    - time
+    - imgList
+    - linkList
+    - autoplay
+    - color
+    - forward
+  - children
+    - append
+    - add
+    - remove
+  - event
+    - change
+    - click
+    - dbclick
+    - swipe
+    - resize
+  - method
+    - next()
+    - prev()
+    - goto()
+    - play()
+    - stop()
+  - config
+    - setInterval()
+    - setTimeout()
+    - userRAF
+    - userTimeout
