@@ -43,3 +43,5 @@
     - setTimeout()
     - userRAF
     - userTimeout
+
+ - 巧用取余做循环
