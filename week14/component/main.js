@@ -50,15 +50,42 @@ class Carousel {
 	}
 
 	render() {
-		return 	<div class="carousel">
-			{
-				this.data.map(url => {
+		let position = 0;
+		let children = this.data.map(url => {
 					let element = <img src={url} alt="cat" />;
 					element.addEventListener("dragstart", event => event.preventDefault());
 					return element;
-				})
-			}
-		</div>
+				});
+		let root = <div class="carousel">{ children }</div>
+
+		let nextPic = () => {  
+			let nextPosition = (position + 1) % this.data.length;
+			let current = children[position];
+			let next = children[nextPosition];
+
+			current.style.transition = "ease 0s";
+			next.style.transition = "ease 0s";
+
+			current.style.transform = `translateX(${- 100 * position}%)`;
+			next.style.transform = `translateX(${100 - 100 * nextPosition}%)`;
+
+			setTimeout(() => {
+				// = "" means use css rule
+				current.style.transition = "";
+				next.style.transition = "";
+
+				current.style.transform = `translateX(${- 100 - 100 * position}%)`;
+				next.style.transform = `translateX(${- 100 * nextPosition}%)`;
+
+				position = nextPosition;
+			}, 16);
+
+			setTimeout(nextPic, 3000);
+		}
+		setTimeout(nextPic, 3000);
+
+
+		return 	root;
 	}
 
 	mountTo(parent) {
