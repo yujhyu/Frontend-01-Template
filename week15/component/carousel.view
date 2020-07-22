@@ -1,0 +1,21 @@
+<template>
+    <div>
+        <img src="" alt="" />
+    </div>
+</template><script>
+    export default {
+        el: "example",
+        data: {
+            message: "hello"
+        },
+        computed: {
+            reversedMessage: function () {
+                return this.message.split('').reverse().join('');
+            }
+        },
+    }
+</script>
+
+<style lang="scss" scoped>
+
+</style>
