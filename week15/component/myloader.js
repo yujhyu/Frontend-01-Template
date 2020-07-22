@@ -17,6 +17,7 @@ module.exports = function (source, map) {
 
 	let createCode = "";
 
+	// 访问方法
 	let visit = (node) => {
 		if (node.type === 'text') return JSON.stringify(node.content);
 
@@ -27,7 +28,7 @@ module.exports = function (source, map) {
 
 		let children = node.children.map(node => visit(node));
 
-		// 生成创建节点 let node${depth} = 
+		// 生成创建节点
 		return ` create("${node.tagName}", ${JSON.stringify(attrs)}, ${children})`;
 	}
 
