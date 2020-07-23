@@ -1,32 +1,80 @@
 export class TimeLine {
 	constructor() {
 		this.animations = [];
-	}
+		this.requestID = null;
+		this.state = "inited";
+		this.tick = () => {
+			let t = Date.now() - this.startTime;
+			let animations = this.animations.filter(animation => !animation.finished); // 管理animations
+			console.log(t)
+			for (let animation of animations) {
+				let {object, property, template, start, end, duration, delay, addTime, timingFunction} = animation;
 
-	tick() {
-		let t = Date.now() - this.startTime;
-		for (let animation of this.animations) {
-			if (t > animation.duration + animation.delay)
-				continue;
+				let progression = timingFunction((t - delay - addTime) / duration); // 百分比 0-1之间的数
 
-			let {object, property, template, start, end, duration, delay, timingFunction} = animation;
+				if (t > duration + delay + addTime) {
+					progression = 1;
+					animation.finished = true;
+				}
 
-			let progression = timingFunction((t - delay) / duration); // 百分比 0-1之间的数
+				let value = start + progression * (end - start);
 
-			let value = start + progression * (end - start);
+				object[property] = template(value);
+			}
 
-			object[property] = template(value);
+			// 停止 requestAnimationFrame
+			if (animations.length) {
+				this.requestID = requestAnimationFrame(this.tick);
+			}
 		}
-		
-		requestAnimationFrame(() => this.tick());
 	}
 
 	start() {
+		if (this.state !== "inited") return;
+		this.state = "playing";
+		// 记录开始时间
 		this.startTime = Date.now();
 		this.tick();
 	}
 
-	add(animation) {
+	// 重新开始
+	restart() {
+		if (this.state === "playing")
+			this.pause();
+		this.animations = [];
+		this.requestID = null;
+		this.state = "playing";
+		this.startTime = Date.now();
+		this.pauseTime = null;
+		this.tick();
+	}
+
+	// 暂停
+	pause() {
+		if (this.state !== "playing") return;
+		this.state = "paused";
+		// 记录停止时间
+		this.pauseTime = Date.now();
+		// 移除动画
+		this.requestID && cancelAnimationFrame(this.requestID);
+	}
+
+	// 重启
+	resume() {
+		if (this.state !== "paused") return;
+		this.state = "playing";
+		// 当前时间减去停止时间
+		this.startTime += Date.now() - this.pauseTime;
+		this.tick();
+	}
+
+	add(animation, addTime) {
+		animation.finished = false;
+		if (this.state === "playing") {
+			animation.addTime = addTime !== void 0 ? addTime : Date.now() - this.startTime;
+		} else {
+			animation.addTime = addTime !== void 0 ? addTime : 0;
+		}
 		this.animations.push(animation);
 	}
 }
