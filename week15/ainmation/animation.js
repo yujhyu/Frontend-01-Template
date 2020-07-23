@@ -17,7 +17,7 @@ export class TimeLine {
 					animation.finished = true;
 				}
 
-				let value = start + progression * (end - start);
+				let value = animation.valueFromProgression(progression); // value 是根据progression计算出来的当前值
 
 				object[property] = template(value);
 			}
@@ -88,6 +88,32 @@ export class Animation {
 		this.end = end;
 		this.duration = duration;
 		this.delay = delay;
-		this.timingFunction = timingFunction
+		this.timingFunction = timingFunction;
+	}
+
+	valueFromProgression(progression) {
+		return this.start + progression * (this.end - this.start);
+	}
+}
+
+export class ColorAnimation {
+	constructor(object, property, template, start, end, duration, delay, timingFunction) {
+		this.object = object;
+		this.property = property;
+		this.template = template || (v => `rgba(${v.r}, ${v.g}, ${v.b}, ${v.a})`);
+		this.start = start;
+		this.end = end;
+		this.duration = duration;
+		this.delay = delay;
+		this.timingFunction = timingFunction;
+	}
+
+	valueFromProgression(progression) { // 
+		return {
+			r: this.start.r + progression * (this.end.r - this.start.r),
+			g: this.start.g + progression * (this.end.g - this.start.g),
+			b: this.start.b + progression * (this.end.b - this.start.b),
+			a: this.start.a + progression * (this.end.a - this.start.a)
+		};
 	}
 }

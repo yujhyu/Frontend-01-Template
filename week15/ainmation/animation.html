@@ -18,7 +18,7 @@
 <button id="resumeBtn">resume</button>
 <button id="el2StartBtn">el2Start</button>
 <script type="module">
-    import {TimeLine, Animation} from './animation.js'
+    import {TimeLine, Animation, ColorAnimation} from './animation.js'
     import {cubicBezier} from './cubicBezier.js'
 
     let linear = t => t;
@@ -38,8 +38,13 @@
     let resumeBtn = document.getElementById("resumeBtn");
     resumeBtn.addEventListener("click", () => {tl.resume()});
 
+    // let el2StartBtn = document.getElementById("el2StartBtn");
+    // el2StartBtn.addEventListener("click", () => {
+    //     tl.add(new Animation(el2.style, "transform", v => `translateX(${v}px)`, 0, 200, 5000, 0, ease), 0);
+    // });
+
     let el2StartBtn = document.getElementById("el2StartBtn");
     el2StartBtn.addEventListener("click", () => {
-        tl.add(new Animation(el2.style, "transform", v => `translateX(${v}px)`, 0, 200, 5000, 0, ease), 0);
+        tl.add(new ColorAnimation(el2.style, "background", null, {r:0,g:0,b:0,a:2}, {r:255,g:0,b:0,a:2}, 5000, 0, ease), 0);
     });
 </script>
