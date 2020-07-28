@@ -63,6 +63,7 @@ class Carousel {
 		let root = <div class="carousel">{ children }</div>
 
 		let timeline = new TimeLine;
+		window.xtimeline = timeline;
 		timeline.start();
 
 		let nextPic = () => {  
@@ -82,7 +83,7 @@ class Carousel {
 
 			position = nextPosition;
 
-			setTimeout(nextPic, 3000);
+			window.xtopHandler = setTimeout(nextPic, 3000);
 		}
 		setTimeout(nextPic, 3000);
 

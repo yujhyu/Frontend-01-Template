@@ -1,13 +1,16 @@
 export class TimeLine {
 	constructor() {
-		this.animations = [];
+		this.animations = new Set();
+		this.finisedAnimations = new Set();
+		this.addTimes = new Map();
 		this.requestID = null;
 		this.state = "inited";
 		this.tick = () => {
 			let t = Date.now() - this.startTime;
-			let animations = this.animations.filter(animation => !animation.finished); // 管理animations
-			for (let animation of animations) {
-				let {object, property, template, start, end, duration, delay, addTime, timingFunction} = animation;
+
+			for (let animation of this.animations) {
+				let {object, property, template, start, end, duration, delay, timingFunction} = animation;
+				let addTime = this.addTimes.get(animation);
 
 				if (t < delay + addTime)
 					continue;
@@ -16,7 +19,8 @@ export class TimeLine {
 
 				if (t > duration + delay + addTime) {
 					progression = 1;
-					animation.finished = true;
+					this.animations.delete(animation);
+					this.finisedAnimations.add(animation);
 				}
 
 				let value = animation.valueFromProgression(progression); // value 是根据progression计算出来的当前值
@@ -25,8 +29,10 @@ export class TimeLine {
 			}
 
 			// 停止 requestAnimationFrame
-			if (true || animations.length) {
+			if (this.animations.size) {
 				this.requestID = requestAnimationFrame(this.tick);
+			} else {
+				this.requestID = null;
 			}
 		}
 	}
@@ -40,10 +46,26 @@ export class TimeLine {
 	}
 
 	// 重新开始
+	reset() {
+		if (this.state === "playing")
+			this.pause();
+		this.animations = new Set();
+		this.finisedAnimations = new Set();
+		this.addTimes = new Map();
+		this.requestID = null;
+		this.startTime = Date.now();
+		this.pauseTime = null;
+		this.state === "inited";
+	}
+
+	// 重新开始
 	restart() {
 		if (this.state === "playing")
 			this.pause();
-		this.animations = [];
+		for (let animation of this.finisedAnimations) {
+			this.animations.add(animation);
+		}
+		this.finisedAnimations = new Set();
 		this.requestID = null;
 		this.state = "playing";
 		this.startTime = Date.now();
@@ -58,7 +80,9 @@ export class TimeLine {
 		// 记录停止时间
 		this.pauseTime = Date.now();
 		// 移除动画
-		this.requestID && cancelAnimationFrame(this.requestID);
+		if (this.requestID !== null)
+			cancelAnimationFrame(this.requestID);
+			this.requestID = null;
 	}
 
 	// 重启
@@ -71,13 +95,17 @@ export class TimeLine {
 	}
 
 	add(animation, addTime) {
-		animation.finished = false;
-		if (this.state === "playing") {
-			animation.addTime = addTime !== void 0 ? addTime : Date.now() - this.startTime;
-		} else {
-			animation.addTime = addTime !== void 0 ? addTime : 0;
+		// 启动动画
+		if (this.state === "playing" && this.requestID === null) {
+			this.tick();
 		}
-		this.animations.push(animation);
+
+		if (this.state === "playing") {
+			this.addTimes.set(animation, addTime !== void 0 ? addTime : Date.now() - this.startTime);
+		} else {
+			this.addTimes.set(animation, animation.addTime = addTime !== void 0 ? addTime : 0);
+		}
+		this.animations.add(animation);
 	}
 }
 
