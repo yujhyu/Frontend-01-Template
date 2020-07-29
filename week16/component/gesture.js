@@ -167,17 +167,12 @@ export function enableGesture(element) {
 
 		if (context.isTap) {
 			// 定义事件
-			element.dispatchEvent(new CustomEvent('tap', {
-				
-			}));
-			console.log("tap");
+			element.dispatchEvent(new CustomEvent('tap', {}));
 		}
 
 		if (context.isPress) {
 			// 定义事件
-			element.dispatchEvent(new CustomEvent('pressend', {
-				
-			}));
+			element.dispatchEvent(new CustomEvent('pressend', {}));
 		}
 
 		// 移除定时
@@ -186,9 +181,7 @@ export function enableGesture(element) {
 
 	let cancel = (point, context) => {
 		// 定义事件
-		element.dispatchEvent(new CustomEvent('cancelend', {
-			
-		}));
+		element.dispatchEvent(new CustomEvent('cancelend', {}));
 		clearTimeout(context.timeoutHandler);
 	}
 }
