@@ -68,3 +68,5 @@ let tabPanel = <TabPanel>
 	</TabPanel>
 
 tabPanel.mountTo(document.body);
+
+window.tabPanel = tabPanel;
