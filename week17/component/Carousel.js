@@ -3,7 +3,7 @@ import {TimeLine, Animation, ColorAnimation} from './animation'
 import {create, Text, Wrapper} from './createElement'
 import {ease, linear} from './cubicBezier'
 import {enableGesture} from './gesture' 
-
+import css from './carousel.css';
 
 export class Carousel {
 	constructor(type) {
