@@ -1,1 +1,24 @@
 # 每周总结可以写在这里
+## 个人总结--常用工具、工具链
+- 初始化
+  - yeoman
+  - cerate-react-app
+  - vue-cli
+- 开发/调试
+  - dev-tool/chrome
+  - webpack-dev-server
+  - mock
+  - wireshark
+  - charles
+  - http-server
+  - vite
+- 测试
+  - mocha
+  - jest
+- 发布
+  - lint
+  - jenkins
+- 项目仓库
+  - git
+  - gitlab
+  - gitee
