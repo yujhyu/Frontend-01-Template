@@ -7,7 +7,7 @@
     - mock 
     - http 
   - Client 
-    - debugger 
+    - debugger  
     - source map 
 
 根据自己需求制定dev工具，只要保证整体流程是正常的
