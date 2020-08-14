@@ -1,13 +1,12 @@
 {
   "name": "test-dome",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
     "coverage": "nyc mocha"
   },
-  "author": "",
+  "author": "jhyu",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.11.1",
@@ -15,12 +14,16 @@
     "@babel/register": "^7.10.5",
     "@istanbuljs/nyc-config-babel": "^3.0.0",
     "babel-loader": "^8.1.0",
-    "babel-plugin-istanbul": "^6.0.0",
     "mocha": "^8.1.1",
     "webpack": "^4.44.1"
   },
   "type": "module",
   "dependencies": {
+    "babel-plugin-istanbul": "^6.0.0",
     "nyc": "^15.1.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "description": ""
 }
