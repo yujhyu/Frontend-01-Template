@@ -1,7 +1,7 @@
 {
-    let state = 'start';
-    let client_id = 'Iv1.ed16e883v2feshk';
-    let client_secret = 'd88b754e21c9fdcbg404e58cf22131f28b826805';
+    let state = 'abc123';
+    let client_id = 'Iv1.ed16e883v2123123k';
+    let client_secret = 'd88b754e21c9fdcbg404e58cf22131f123826805';
     let redirect_uri = encodeURIComponent('http://localhost:8000');
   
     /** 
